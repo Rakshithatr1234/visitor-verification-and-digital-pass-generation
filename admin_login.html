@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Login</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+body { font-family: Arial, Helvetica, sans-serif; background:#f6f8fb; margin:0; padding:0; }
+.login-container { max-width:400px; margin:80px auto; background:#fff; padding:40px; border-radius:8px; box-shadow:0 6px 18px rgba(20,30,50,0.08); }
+h2 { text-align:center; margin:0 0 30px; color:#222; font-size:24px; }
+label { display:block; font-size:13px; margin:12px 0 6px; color:#333; font-weight:500; }
+input[type="text"],
+input[type="password"] { width:100%; padding:10px 12px; border:1px solid #d9e0ea; border-radius:6px; box-sizing:border-box; margin-bottom:16px; font-size:14px; }
+button { width:100%; padding:10px; background:linear-gradient(135deg, #2b7cff 0%, #1a63d6 100%); color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:500; transition:all 0.3s; }
+button:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(43,124,255,0.3); }
+</style>
+</head>
+
+<body>
+<div class="login-container">
+<h2>Admin Login</h2>
+
+<form method="POST">
+<label>Username</label>
+<input type="text" name="username" placeholder="Enter username" required>
+
+<label>Password</label>
+<input type="password" name="password" placeholder="Enter password" required>
+
+{% if error %}
+<div id="popup" style="
+position:fixed;
+top:20px;
+right:20px;
+background:#ff4d4d;
+color:white;
+padding:15px 25px;
+border-radius:8px;
+font-weight:bold;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+z-index:999;">
+    Invalid Login Credentials
+</div>
+
+<script>
+setTimeout(function(){
+    document.getElementById("popup").style.display="none";
+},4000);
+</script>
+{% endif %}
+
+<button type="submit">Login</button>
+</form>
+</div>
+
+<!-- dashboard button -->
+<div style="text-align:center; margin-top:-20px;">
+	<a href="{{ url_for('dashboard') }}" style="display:inline-block; padding:10px 20px; background:linear-gradient(135deg, #c27afd 0%, #1a63d6 100%); color:#fff; border-radius:6px; text-decoration:none; cursor:pointer; font-weight:500; font-family:Arial, Helvetica, sans-serif; transition:all 0.3s;">Go to Homepage</a>
+</div>
+</body>
+</html>

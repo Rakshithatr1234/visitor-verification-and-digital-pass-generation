@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Visitor Pass</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.pass-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.pass{
+width:420px;
+margin:auto;
+padding:30px;
+border-radius:12px;
+box-shadow:0 0 15px #ccc;
+text-align:center;
+font-family:Arial;
+background:white;
+}
+
+.pass img{
+margin-top:20px;
+width:260px;
+}
+
+.valid{
+color:red;
+font-weight:bold;
+}
+
+.btn-back {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 420px;
+    margin: 20px auto 0;
+    display: block;
+}
+
+.btn-back:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="pass-container">
+    <div class="pass">
+
+        <h2>DIGITAL VISITOR PASS</h2>
+
+        <p><b>Name:</b> {{visitor["name"]}}</p>
+        <p><b>Visitor Code:</b> {{visitor["visitor_code"]}}</p>
+        <p><b>Purpose:</b> {{visitor["purpose"]}}</p>
+        <p><b>Host:</b> {{visitor["person"]}}</p>
+
+        <p><b>Date:</b> {{date}}</p>
+        <p><b>Time:</b> {{time}}</p>
+        <p><b>Valid Until:</b> {{validity}}</p>
+
+        {% if barcode_path.startswith('file://') or '\\' in barcode_path %}
+            <img src="{{ barcode_path }}">
+        {% else %}
+            <img src="{{ url_for('static', filename=barcode_path) }}">
+        {% endif %}
+
+    </div>
+    
+    <button class="btn-back" onclick="goBack()">← Back to Visitor Status</button>
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+</body>
+</html>

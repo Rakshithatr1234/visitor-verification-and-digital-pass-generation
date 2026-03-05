@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Status</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .details-section {
+            margin: 20px 0;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 15px;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+            min-width: 100px;
+        }
+        
+        .detail-value {
+            color: #333;
+            text-align: right;
+            flex: 1;
+            word-break: break-word;
+        }
+        
+        .status-section {
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .status-section h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .status-section p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background-color: #d4edda;
+            border-left: 5px solid #28a745;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background-color: #f8d7da;
+            border-left: 5px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #0b7dda;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+        
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .btn-back:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: #999;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .detail-value {
+                text-align: left;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 Visitor Status</h1>
+            <p>Check your visit approval status</p>
+        </div>
+        
+        <div class="details-section">
+            <div class="detail-item">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value">{{visitor["name"]}}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Visitor ID:</span>
+                <span class="detail-value">{{visitor["visitor_code"]}}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Phone:</span>
+                <span class="detail-value">{{visitor["phone"]}}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">To Meet:</span>
+                <span class="detail-value">{{visitor["person"]}}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Purpose:</span>
+                <span class="detail-value">{{visitor["purpose"]}}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Status:</span>
+                <span class="detail-value" style="font-weight: 600; color: #667eea;">{{visitor["status"]}}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">ID Check:</span>
+                <span class="detail-value" style="font-weight: 600;">
+                    {% if visitor["id_status"] == "Valid" %}
+                        <span style="color:green;">✔ Valid</span>
+                    {% elif visitor["id_status"] == "Invalid" %}
+                        <span style="color:red;">❌ Invalid</span>
+                    {% elif visitor["id_status"] == "Suspicious" %}
+                        <span style="color:orange;">⚠ Suspicious</span>
+                    {% else %}
+                        <span style="color:gray;">Pending</span>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        
+        {% if visitor["status"] == "Pending" %}
+        
+        <div class="status-section status-pending">
+            <h3>⏳ Pending Verification</h3>
+            <p>Your visit request is being verified by our admin team. Please wait for confirmation.</p>
+        </div>
+        
+        {% elif visitor["status"] == "Approved" %}
+        
+        <div class="status-section status-approved">
+            <h3>✅ Visit Approved</h3>
+            <p>Congratulations! Your visit has been approved. You can now view or download your digital pass.</p>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="viewPass()">👁️ View Digital Pass</button>
+            <button class="btn btn-secondary" onclick="downloadPass()">📥 Download Pass</button>
+        </div>
+        
+        {% elif visitor["status"] == "Rejected" %}
+        
+        <div class="status-section status-rejected">
+            <h3>❌ Request Rejected</h3>
+            <p>Your visit request has been rejected. Please contact our office administration for more information.</p>
+        </div>
+        
+        {% endif %}
+        
+        <button class="btn btn-back" onclick="goBack()">← Back to Login</button>
+        
+        <div class="footer">
+            <p>&copy; 2026 Visitor Management System. All rights reserved.</p>
+        </div>
+    </div>
+    
+    <script>
+        function viewPass() {
+            window.location.href = '/view_pass/{{visitor["visitor_code"]}}';
+        }
+        
+        function downloadPass() {
+            window.location.href = '/download_pass/{{visitor["visitor_code"]}}';
+        }
+        
+        function goBack() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

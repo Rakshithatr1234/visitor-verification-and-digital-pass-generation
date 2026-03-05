@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <!-- global stylesheet for fonts and layout -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+    table{
+        border-collapse: collapse;
+        width: 90%;
+        margin:auto;
+        font-family: inherit; /* use body font */
+    }
+    th,td{
+        border:1px solid black;
+        padding:10px;
+        text-align:center;
+    }
+    th{
+        background:#ddd;
+    }
+    </style>
+</head>
+
+<body>
+    
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <h3 style="color:green;text-align:center;">{{ messages[0] }}</h3>
+  {% endif %}
+{% endwith %}
+
+
+<h2 style="text-align:center;">Visitor Records</h2>
+
+<form method="GET">
+  <input type="text" name="search" placeholder="Enter Visitor ID">
+  <input type="date" name="date" value="{{ filter_date if filter_date }}">
+  <button type="submit">Search</button>
+</form><br><br>
+
+{% if total_visitors is not none %}
+<div style="text-align:center; margin-bottom:15px;">
+  <b>Total visitors:</b> {{ total_visitors }} &nbsp; | &nbsp;
+  <b>Approved:</b> {{ total_approved }} &nbsp; | &nbsp;
+  <b>Rejected:</b> {{ total_rejected }}
+  {% if filter_date %}
+  &nbsp; | &nbsp; <b>Date:</b> {{ filter_date }}
+  {% endif %}
+</div>
+{% endif %}
+
+
+<table>
+<tr>
+<th>sl no</th>
+<th>Date</th>
+<th>visitor code</th>
+<th>Name</th>
+<th>Phone</th>
+<th>Purpose</th>
+<th>Meeting Person</th>
+<th>ID File</th>
+<th>ID Status</th>
+<th>Action</th>
+<th>Status</th>
+<th>Approval</th>
+
+</tr>
+
+{% for v in visitors %}
+<tr>
+<td>{{ loop.index }}</td>    
+<td>{{ v[8] }}</td>   
+<td>{{v[1]}}</td>
+<td>{{v[2]}}</td>
+<td>{{v[3]}}</td>
+<td>{{v[4]}}</td>
+<td>{{v[5]}}</td>
+<td>
+  <a href="/uploads/{{ v[6].split('/')[-1].split('\\')[-1] }}" target="_blank">
+View ID
+</a>
+</td>
+  
+<td>
+{% if v[9] == "Valid" %}
+    <span style="color:green;font-weight:bold;">✔ Valid</span>
+{% elif v[9] == "Invalid" %}
+    <span style="color:red;font-weight:bold;">❌ Invalid</span>
+{% elif v[9] == "Suspicious" %}
+    <span style="color:orange;font-weight:bold;">⚠ Suspicious</span>
+{% else %}
+    <span style="color:gray;">waiting</span>
+{% endif %}
+</td>
+
+<td>
+<a href="/delete/{{v[0]}}">
+<button>Delete</button>
+</a>
+</td>
+
+<td>
+{% if v[7] == 'Approved' %}
+    <b style="color:green;">{{ v[7] }}</b>
+{% elif v[7] == 'Rejected' %}
+    <b style="color:red;">{{ v[7] }}</b>
+{% else %}
+    <b style="color:orange;">{{ v[7] }}</b>
+{% endif %}
+</td>
+
+<td>
+<a href="/approve/{{v[0]}}">
+<button style="background:green;color:white;">Approve</button>
+</a>
+
+<a href="/reject/{{v[0]}}">
+<button style="background:red;color:white;">Reject</button>
+</a>
+</td>
+
+
+
+</tr>
+{% endfor %}
+
+</table>
+
+<div style="text-align:center; margin:20px;">
+    <a href="/admin_logout">
+    <button style="background:red; color:white; padding:8px 15px; border:none; border-radius:5px;">
+            Logout
+      </button>
+    </a>
+</div>
+
+</body>
+</html>

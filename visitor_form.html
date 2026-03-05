@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Visitor Registration</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<style>
+		body { font-family: Arial, Helvetica, sans-serif; background:#f6f8fb; color:#222; }
+		.form-wrap { max-width:520px; margin:36px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 6px 18px rgba(20,30,50,0.08); }
+		h2 { margin:0 0 14px; font-size:20px; text-align:center; }
+		label { display:block; font-size:13px; margin:12px 0 6px; color:#333; }
+		input[type="text"], input[type="tel"], input[type="email"], textarea, input[type="file"] {
+			width:100%; padding:10px 12px; border:1px solid #d9e0ea; border-radius:6px; box-sizing:border-box;
+		}
+		textarea { min-height:80px; resize:vertical; }
+		.row { display:flex; gap:12px; }
+		.row > * { flex:1; }
+		.note { font-size:12px; color:#666; margin-top:8px; }
+		button { margin-top:16px; width:100%; padding:10px; background:#2b7cff; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+		button:hover { background:#1a63d6; }
+	</style>
+</head>
+
+<body>
+
+	<div class="form-wrap">
+		<h2>Visitor Registration</h2>
+
+		<form method="POST" action="/submit" enctype="multipart/form-data">
+
+			<label for="name">Visitor Name</label>
+			<input id="name" name="name" type="text" placeholder="Enter full name" required>
+
+			<div class="row">
+				<div>
+					<label for="phone">Phone Number</label>
+					<input id="phone" name="phone" type="tel" placeholder="10-digit phone" pattern="[0-9]{10}" maxlength="10" required>
+				</div>
+				<div>
+					<label for="email">Email (optional)</label>
+					<input id="email" name="email" type="email" placeholder="you@example.com">
+				</div>
+			</div>
+
+			<label for="purpose">Purpose of Visit</label>
+			<input id="purpose" name="purpose" type="text" placeholder="Reason for visit" required>
+
+			<label for="person">Meeting Person</label>
+			<input id="person" name="person" type="text" placeholder="Person to meet">
+
+			<label for="idproof">Upload ID Proof</label>
+			<input id="idproof" type="file" name="idproof" required>
+			<div id="verification-message" style="display:none; margin-top:8px; padding:10px; background:#e8f4fd; border-left:4px solid #2b7cff; color:#0066cc; font-size:13px; border-radius:4px;">
+				<strong>✓ ID under verification:</strong> <span id="filename-display"></span>
+			</div>
+
+			<div class="note">By submitting you agree to the facility's visitor policy.</div>
+			<button type="submit">Submit</button>
+
+		</form>
+	</div>
+
+	<!-- back to login button -->
+	<div style="text-align:center; margin-top:-20px;">
+		<a href="{{ url_for('visitor_login') }}" style="display:inline-block; padding:10px 20px; background:linear-gradient(135deg, #df75fa 0%, #1a63d6 100%); color:#fff; border-radius:6px; text-decoration:none; cursor:pointer; transition:all 0.3s; font-family: Arial, Helvetica, sans-serif; font-weight:500;">Back</a>
+	</div>
+
+	<script>
+		document.getElementById('idproof').addEventListener('change', function(e) {
+			const verificationDiv = document.getElementById('verification-message');
+			const filenameSpan = document.getElementById('filename-display');
+			
+			if (this.files && this.files.length > 0) {
+				filenameSpan.textContent = this.files[0].name;
+				verificationDiv.style.display = 'block';
+			} else {
+				verificationDiv.style.display = 'none';
+			}
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align:center;
+    margin-top:100px;
+    color:#333;
+}
+
+/* Headings inherit body font but can be bolder */
+h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+    font-weight: 600;
+}
+
+/* Table text should remain readable */
+table, th, td {
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+input{
+padding:8px;
+width:200px;
+}
+
+button{
+padding:10px 20px;
+background:blue;
+color:white;
+border:none;
+}
+

@@ -1,0 +1,6 @@
+Flask==2.3.3
+python-barcode==0.15.1
+html2image==2.0.4.3
+pytesseract==0.3.10
+Pillow==10.0.0
+opencv-python==4.8.1.78

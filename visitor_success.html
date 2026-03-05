@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Registration Successful</title>
+
+<style>
+body{
+text-align:center;
+font-family:Arial;
+background:#f4f6f9;
+padding-top:80px;
+}
+
+.card{
+background:white;
+width:420px;
+margin:auto;
+padding:30px;
+border-radius:12px;
+box-shadow:0 0 15px rgba(0,0,0,0.2);
+}
+
+.idbox{
+font-size:26px;
+color:#2c3e50;
+font-weight:bold;
+margin:20px 0;
+}
+
+.warning{
+color:red;
+font-weight:bold;
+margin-top:15px;
+}
+
+button{
+padding:12px 20px;
+background:#3498db;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>✅ Registration Successful</h2>
+
+<p>Your Unique Visitor ID is:</p>
+
+<div class="idbox">
+{{ visitor_code }}
+</div>
+
+<!-- show the id validation result so the user knows what the system found -->
+{% if id_status %}
+<p><strong>ID check:</strong> {{ id_status }}</p>
+{% endif %}
+
+<div class="warning">
+⚠ IMPORTANT: Please take a screenshot of this ID now.<br>
+You will need it later to check status and download your pass.
+</div>
+
+<br>
+
+<a href="/visitor_login">
+<button>Go to Login Page</button>
+</a>
+
+</div>
+
+</body>
+</html>
