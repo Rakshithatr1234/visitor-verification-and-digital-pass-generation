@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.11-bullseye
 
 # Install system dependencies (Tesseract + OpenCV requirements)
 RUN apt-get update && \
@@ -31,4 +31,5 @@ EXPOSE 5000
 # Run the app
 
 CMD ["python", "app.py"]
+
 
